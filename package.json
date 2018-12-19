@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "tslint --project '.'",
-    "start": "nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec 'ts-node' src/server.ts build/server.js",
+    "start": "nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec 'ts-node' src/server.ts dist/server.js",
     "compile": "tsc",
     "build": "npm run compile && node dist/server.js"
   },
