@@ -4,12 +4,12 @@ export async function up(knex: Knex): Promise<any> {
   return Promise.all([
     knex.schema.createTable('users', (table) => {
       table.uuid('id').defaultTo(knex.raw('uuid_generate_v4()')).primary();
-      table.string('user_hash');
       table.timestamps(true, true);
     }),
     knex.schema.createTable('locations', (table) => {
       table.uuid('id').defaultTo(knex.raw('uuid_generate_v4()')).primary();
       table.string('location_name');
+      table.string('category');
       table.float('latitude');
       table.float('longitude');
       table.timestamps(true, true);
