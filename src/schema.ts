@@ -12,10 +12,12 @@ export const schema = buildSchema(`
     category: String
     latitude: Float
     longitude: Float
+    users: [User]
   }
   type Query {
     user (id: String!): User
     locations: [Location]
+    location (id: String!): Location
   }
   type Mutation {
     newUser: User
