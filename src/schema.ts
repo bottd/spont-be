@@ -3,10 +3,22 @@ import { buildSchema } from 'graphql';
 export const schema = buildSchema(`
   type User {
     id: String
-    user_hash: String
+    created_at: String
+    updated_at: String
+    locations: [Location]
+  }
+  type Location {
+    location_name: String
+    category: String
+    latitude: Float
+    longitude: Float
   }
   type Query {
-    users: [User]
+    user (id: String!): User
+    locations: [Location]
+  }
+  type Mutation {
+    newUser: User
   }
 `);
 
