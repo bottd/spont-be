@@ -5,19 +5,19 @@ export const schema = buildSchema(`
     id: String
     created_at: String
     updated_at: String
-    locations: [Location]
   }
   type Location {
     location_name: String
     category: String
     latitude: Float
     longitude: Float
-    users: [User]
   }
   type Query {
     user (id: String!): User
+    userLocations (id: String!): [Location]
     locations: [Location]
     location (id: String!): Location
+    locationUsers (id: String!): [User]
   }
   type Mutation {
     newUser: User

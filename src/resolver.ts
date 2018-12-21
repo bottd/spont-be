@@ -4,18 +4,12 @@ const config = require('./knexfile')[environment];
 const database = knex(config);
 
 export const rootValue = {
-  user: async ({ id }) => {
-    const locations = await selectLocationsByUserID(id);
-    const user = await selectUserByID(id);
-    return { ...user, locations };
-  },
-  location: async ({ id }) => {
-    const location = await selectLocationByID(id);
-    const users = await selectUsersByLocationID(id);
-    return { ...location, users };
-  },
+  user: ({ id }) => selectUserByID(id),
+  userLocations: ({ id }) => selectLocationsByUserID(id),
+  location: ({ id }) => selectLocationByID(id),
   locations: () => database('locations').select(),
   newUser: () => createNewUser(),
+  locationUsers: ({ id }) => selectUsersByLocationID(id),
 };
 
 function selectUserByID(id: string) {
