@@ -2,7 +2,6 @@ import * as express from 'express';
 import * as knex from 'knex';
 import * as graphqlHTTP from 'express-graphql';
 import { schema } from './schema';
-import { rootValue } from './resolver';
 
 const app = express();
 
@@ -13,7 +12,6 @@ app.use(
   '/graphql',
   graphqlHTTP({
     schema,
-    rootValue,
     graphiql: true,
   }),
 );
