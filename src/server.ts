@@ -3,6 +3,7 @@ import * as knex from 'knex';
 import * as graphqlHTTP from 'express-graphql';
 import { schema } from './schema';
 
+require('dotenv').config()
 const app = express();
 
 app.set('port', process.env.PORT || 3000);
