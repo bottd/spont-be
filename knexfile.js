@@ -17,7 +17,7 @@ module.exports = {
       directory: './dist/migrations',
     },
     seeds: {
-      directory: './dist/seeds/production',
+      directory: './dist/seeds',
     },
     useNullAsDefault: true,
   },
