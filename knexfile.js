@@ -14,10 +14,10 @@ module.exports = {
     client: 'pg',
     connection: process.env.DATABASE_URL + '?ssl=true',
     migrations: {
-      directory: './db/migrations',
+      directory: './dist/db/migrations',
     },
     seeds: {
-      directory: './db/seeds/production',
+      directory: './dist/db/seeds/production',
     },
     useNullAsDefault: true,
   },
