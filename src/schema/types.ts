@@ -40,3 +40,12 @@ export const LocationType = new GraphQLObjectType({
     },
   }),
 });
+
+export const CoordType = new GraphQLObjectType({
+  name: 'Coordinate',
+  fields: () => ({
+    userID: { type: GraphQLString },
+    latitude: { type: GraphQLFloat },
+    longitude: { type: GraphQLFloat },
+  }),
+});
