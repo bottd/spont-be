@@ -25,6 +25,7 @@
     "@types/knex": "^0.15.1",
     "@types/node": "^10.12.18",
     "@types/pg": "^7.4.11",
+    "axios": "^0.18.0",
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "express-graphql": "^0.7.1",
