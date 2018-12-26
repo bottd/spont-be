@@ -50,20 +50,34 @@ export async function createNewUser() {
 }
 
 export async function insertLocation(location: Location, user: User) {
-  const locationID = await database('locations').insert(location, 'id');
-  await database('user_locations').insert(
-    {
-      location_id: locationID[0],
-      user_id: user.id,
-    },
-    '*',
-  );
+  const checkLocation = await database('locations')
+    .where('latitude', location.latitude)
+    .andWhere('longitude', location.longitude)
+    .first();
+  if (!checkLocation) {
+    const locationID = await database('locations').insert(location, 'id');
+    await database('user_locations').insert(
+      {
+        location_id: locationID[0],
+        user_id: user.id,
+      },
+      '*',
+    );
+  } else {
+    const selectedLocation = await database('locations')
+      .where('latitude', location.latitude)
+      .andWhere('longitude', location.longitude)
+      .first();
+    await database('user_locations')
+      .where('location_id', selectedLocation.id)
+      .andWhere('user_id', user.id)
+      .increment('visit_count', 1);
+  }
   const returnStuff = {
     userID: user.id,
     latitude: location.latitude,
     longitude: location.longitude,
   };
-  console.log(returnStuff);
   return returnStuff;
 }
 
