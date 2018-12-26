@@ -20,7 +20,7 @@ export async function up(knex: Knex): Promise<any> {
       table.foreign('user_id').references('users.id');
       table.uuid('location_id');
       table.foreign('location_id').references('locations.id');
-      table.integer('visit_count');
+      table.integer('visit_count').defaultTo(1);
       table.timestamps(true, true);
     }),
   ]);
