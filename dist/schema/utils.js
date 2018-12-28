@@ -63,6 +63,7 @@ function insertLocation(location, user) {
             yield database('user_locations').insert({
                 location_id: locationID[0],
                 user_id: user.id,
+                visit_count: 1,
             }, '*');
         }
         else {

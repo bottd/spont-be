@@ -32,9 +32,18 @@ exports.mutationSchema = new GraphQLObjectType({
             resolve(parentValue, args) {
                 return __awaiter(this, void 0, void 0, function* () {
                     const locations = yield utils_1.getLocationByCoords(args.latitude, args.longitude);
-                    const join1 = yield utils_1.insertLocation(locations[0], { id: args.userID });
-                    const join2 = yield utils_1.insertLocation(locations[1], { id: args.userID });
-                    return join1;
+                    if (locations.length > 1) {
+                        const join1 = yield utils_1.insertLocation(locations[0], { id: args.userID });
+                        const join2 = yield utils_1.insertLocation(locations[1], { id: args.userID });
+                        return join1;
+                    }
+                    else if (locations.length === 1) {
+                        const join1 = yield utils_1.insertLocation(locations[0], { id: args.userID });
+                        return join1;
+                    }
+                    else {
+                        return args;
+                    }
                 });
             },
         },
