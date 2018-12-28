@@ -60,6 +60,7 @@ export async function insertLocation(location: Location, user: User) {
       {
         location_id: locationID[0],
         user_id: user.id,
+        visit_count: 1,
       },
       '*',
     );

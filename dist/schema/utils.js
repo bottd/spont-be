@@ -9,8 +9,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const knex = require("knex");
+const axios = require('axios');
 const environment = process.env.NODE_ENV || 'development';
-const config = require('../knexfile')[environment];
+const config = require('../../knexfile')[environment];
 const database = knex(config);
 function selectUserByID(id) {
     return database('users')
@@ -51,4 +52,49 @@ function createNewUser() {
     });
 }
 exports.createNewUser = createNewUser;
+function insertLocation(location, user) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const checkLocation = yield database('locations')
+            .where('latitude', location.latitude)
+            .andWhere('longitude', location.longitude)
+            .first();
+        if (!checkLocation) {
+            const locationID = yield database('locations').insert(location, 'id');
+            yield database('user_locations').insert({
+                location_id: locationID[0],
+                user_id: user.id,
+                visit_count: 1,
+            }, '*');
+        }
+        else {
+            const selectedLocation = yield database('locations')
+                .where('latitude', location.latitude)
+                .andWhere('longitude', location.longitude)
+                .first();
+            yield database('user_locations')
+                .where('location_id', selectedLocation.id)
+                .andWhere('user_id', user.id)
+                .increment('visit_count', 1);
+        }
+        const returnStuff = {
+            userID: user.id,
+            latitude: location.latitude,
+            longitude: location.longitude,
+        };
+        return returnStuff;
+    });
+}
+exports.insertLocation = insertLocation;
+function getLocationByCoords(latitude, longitude) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const response = yield axios.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=${process.env.API_KEY}&location=${latitude},${longitude}&rankby=distance`);
+        return response.data.results.map(result => ({
+            category: result.types[0],
+            location_name: result.name,
+            latitude: result.geometry.location.lat,
+            longitude: result.geometry.location.lng,
+        }));
+    });
+}
+exports.getLocationByCoords = getLocationByCoords;
 //# sourceMappingURL=utils.js.map

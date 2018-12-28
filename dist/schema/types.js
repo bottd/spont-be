@@ -33,4 +33,12 @@ exports.LocationType = new GraphQLObjectType({
         },
     }),
 });
+exports.CoordType = new GraphQLObjectType({
+    name: 'Coordinate',
+    fields: () => ({
+        userID: { type: GraphQLString },
+        latitude: { type: GraphQLFloat },
+        longitude: { type: GraphQLFloat },
+    }),
+});
 //# sourceMappingURL=types.js.map
