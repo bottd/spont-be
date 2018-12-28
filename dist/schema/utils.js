@@ -54,27 +54,33 @@ function createNewUser() {
 exports.createNewUser = createNewUser;
 function insertLocation(location, user) {
     return __awaiter(this, void 0, void 0, function* () {
+        let locationID;
         const checkLocation = yield database('locations')
             .where('latitude', location.latitude)
             .andWhere('longitude', location.longitude)
             .first();
         if (!checkLocation) {
-            const locationID = yield database('locations').insert(location, 'id');
+            locationID = yield database('locations').insert(location, 'id');
+        }
+        else {
+            locationID = checkLocation.id;
+        }
+        const checkJoin = yield database('user_locations')
+            .where('location_id', locationID)
+            .andWhere('user_id', user.id)
+            .first();
+        if (checkJoin) {
+            yield database('user_locations')
+                .where('location_id', locationID)
+                .andWhere('user_id', user.id)
+                .increment('visit_count', 1);
+        }
+        else {
             yield database('user_locations').insert({
-                location_id: locationID[0],
+                location_id: locationID,
                 user_id: user.id,
                 visit_count: 1,
             }, '*');
-        }
-        else {
-            const selectedLocation = yield database('locations')
-                .where('latitude', location.latitude)
-                .andWhere('longitude', location.longitude)
-                .first();
-            yield database('user_locations')
-                .where('location_id', selectedLocation.id)
-                .andWhere('user_id', user.id)
-                .increment('visit_count', 1);
         }
         const returnStuff = {
             userID: user.id,
