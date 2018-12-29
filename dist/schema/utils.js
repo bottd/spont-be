@@ -13,6 +13,10 @@ const axios = require('axios');
 const environment = process.env.NODE_ENV || 'development';
 const config = require('../../knexfile')[environment];
 const database = knex(config);
+function selectAllLocations() {
+    return database('locations').select();
+}
+exports.selectAllLocations = selectAllLocations;
 function selectUserByID(id) {
     return database('users')
         .where('id', id)
@@ -93,7 +97,7 @@ function insertLocation(location, user) {
 exports.insertLocation = insertLocation;
 function getLocationByCoords(latitude, longitude) {
     return __awaiter(this, void 0, void 0, function* () {
-        const response = yield axios.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=${process.env.API_KEY}&location=${latitude},${longitude}&rankby=distance`);
+        const response = yield axios.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=${process.env.API_KEY}&location=${latitude},${longitude}&radius=50`);
         return response.data.results.map(result => ({
             category: result.types[0],
             location_name: result.name,
