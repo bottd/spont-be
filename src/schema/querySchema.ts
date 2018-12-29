@@ -21,5 +21,11 @@ export const querySchema = new GraphQLObjectType({
         return selectLocationByID(args.id);
       },
     },
+    locations: {
+      type: new GraphQLList(LocationType),
+      resolve(parentValue, args) {
+        return selectAllLocations();
+      },
+    },
   },
 });
