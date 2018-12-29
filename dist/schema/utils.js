@@ -98,12 +98,17 @@ exports.insertLocation = insertLocation;
 function getLocationByCoords(latitude, longitude) {
     return __awaiter(this, void 0, void 0, function* () {
         const response = yield axios.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=${process.env.API_KEY}&location=${latitude},${longitude}&radius=50`);
-        return response.data.results.map(result => ({
-            category: result.types[0],
-            location_name: result.name,
-            latitude: result.geometry.location.lat,
-            longitude: result.geometry.location.lng,
-        }));
+        return response.data.results.reduce((array, result) => {
+            if (!result.types.includes('route')) {
+                array.push({
+                    category: result.types[0],
+                    location_name: result.name,
+                    latitude: result.geometry.location.lat,
+                    longitude: result.geometry.location.lng,
+                });
+            }
+            return array;
+        }, []);
     });
 }
 exports.getLocationByCoords = getLocationByCoords;
