@@ -1,8 +1,12 @@
 import * as graphql from 'graphql';
 import { UserType, LocationType } from './types';
-import { selectUserByID, selectLocationByID } from './utils';
+import {
+  selectUserByID,
+  selectLocationByID,
+  selectAllLocations,
+} from './utils';
 
-const { GraphQLObjectType, GraphQLString, GraphQLNonNull } = graphql;
+const { GraphQLObjectType, GraphQLString, GraphQLNonNull, GraphQLList } = graphql;
 
 export const querySchema = new GraphQLObjectType({
   name: 'RootQuery',
@@ -19,6 +23,12 @@ export const querySchema = new GraphQLObjectType({
       args: { id: { type: GraphQLNonNull(GraphQLString) } },
       resolve(parentValue, args) {
         return selectLocationByID(args.id);
+      },
+    },
+    locations: {
+      type: new GraphQLList(LocationType),
+      resolve(parentValue, args) {
+        return selectAllLocations();
       },
     },
   },
