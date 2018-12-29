@@ -6,7 +6,7 @@ import {
   selectAllLocations,
 } from './utils';
 
-const { GraphQLObjectType, GraphQLString, GraphQLNonNull } = graphql;
+const { GraphQLObjectType, GraphQLString, GraphQLNonNull, GraphQLList } = graphql;
 
 export const querySchema = new GraphQLObjectType({
   name: 'RootQuery',
