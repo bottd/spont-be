@@ -1,6 +1,10 @@
 import * as graphql from 'graphql';
 import { UserType, LocationType } from './types';
-import { selectUserByID, selectLocationByID } from './utils';
+import {
+  selectUserByID,
+  selectLocationByID,
+  selectAllLocations,
+} from './utils';
 
 const { GraphQLObjectType, GraphQLString, GraphQLNonNull } = graphql;
 

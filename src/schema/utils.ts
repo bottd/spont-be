@@ -14,6 +14,10 @@ interface User {
   id: string;
 }
 
+export function selectAllLocations() {
+  return database('locations').select();
+}
+
 export function selectUserByID(id: string) {
   return database('users')
     .where('id', id)
