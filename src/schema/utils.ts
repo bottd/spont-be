@@ -95,7 +95,7 @@ export async function getLocationByCoords(latitude: number, longitude: number) {
   const response = await axios.get(
     `https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=${
       process.env.API_KEY
-    }&location=${latitude},${longitude}&radius=50`,
+    }&location=${latitude},${longitude}&rankby=distance`,
   );
   return response.data.results.reduce((array, result) => {
     if (!result.types.includes('route')) {
