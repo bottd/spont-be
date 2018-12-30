@@ -97,7 +97,7 @@ function insertLocation(location, user) {
 exports.insertLocation = insertLocation;
 function getLocationByCoords(latitude, longitude) {
     return __awaiter(this, void 0, void 0, function* () {
-        const response = yield axios.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=${process.env.API_KEY}&location=${latitude},${longitude}&radius=50`);
+        const response = yield axios.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=${process.env.API_KEY}&location=${latitude},${longitude}&rankby=distance`);
         return response.data.results.reduce((array, result) => {
             if (!result.types.includes('route')) {
                 array.push({
