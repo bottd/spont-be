@@ -18,13 +18,9 @@ app.use(
 );
 
 app.post('/locations', async (req, res) => {
-  if (req.body.location.coords.is_moving) {
+  if (req.body.location.is_moving) {
     return res.status(200).json(req.body);
   }
-  console.log(req.body.userID);
-  console.log(req.body.location.coords.latitude);
-  console.log(req.body.location.coords.longitude);
-  console.log(req.body.location.is_moving);
   const args = req.body;
   const { coords } = args;
   const missingParams = [];
