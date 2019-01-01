@@ -19,7 +19,7 @@ app.use(
 
 app.post('/locations', async (req, res) => {
   if (!req.body.is_moving) {
-    return res.status(200).json(args);
+    return res.status(200).json(res.body);
   }
   console.log(req.body);
   const args = req.body;
