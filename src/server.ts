@@ -21,7 +21,9 @@ app.post('/locations', async (req, res) => {
   if (req.body.is_moving) {
     return res.status(200).json(req.body);
   }
-  console.log(req.body);
+  console.log(req.body.userID);
+  console.log(req.body.latitude);
+  console.log(req.body.longitude);
   const args = req.body;
   const missingParams = [];
   for (const requiredParam in ['latitude', 'longitude', 'userID']) {
