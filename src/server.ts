@@ -18,6 +18,9 @@ app.use(
 );
 
 app.post('/locations', async (req, res) => {
+  if (!req.body.is_moving) {
+    return res.status(200).json(args);
+  }
   console.log(req.body);
   const args = req.body;
   const missingParams = [];
