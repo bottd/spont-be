@@ -24,7 +24,7 @@ app.post('/locations', async (req, res) => {
   console.log(req.body.userID);
   console.log(req.body.location.coords.latitude);
   console.log(req.body.location.coords.longitude);
-  console.log(req.body.location.coords.is_moving);
+  console.log(req.body.location.is_moving);
   const args = req.body;
   const { coords } = args;
   const missingParams = [];
