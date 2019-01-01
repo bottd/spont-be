@@ -36,7 +36,20 @@ describe('utils methods', () => {
       done();
     });
   });
-  describe('selectLocationsByID', () => {});
+  describe('selectLocationByID', () => {
+    beforeAll(async done => {
+      await database.migrate.rollback();
+      await database.migrate.latest();
+      await database.seed.run();
+      done();
+    });
+    it('Should return a location object matching the given ID', async done => {
+      const locations = await utils.selectAllLocations();
+      const selectedLocation = await utils.selectLocationByID(locations[0].id);
+      expect(selectedLocation).toEqual(locations[0]);
+      done();
+    });
+  });
   describe('selectLocationsByUserID', () => {});
   describe('selectUsersByLocationID', () => {});
   describe('createNewUser', () => {
@@ -56,4 +69,8 @@ describe('utils methods', () => {
   });
   describe('insertLocation', () => {});
   describe('getLocationByCoords', () => {});
+  afterAll(async done => {
+    await database.migrate.rollback();
+    done();
+  });
 });
