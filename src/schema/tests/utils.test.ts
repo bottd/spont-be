@@ -73,7 +73,7 @@ describe('utils methods', () => {
         latitude: location.latitude,
         longitude: location.longitude,
       }));
-      expect(locations).toMatchSnapshot();
+      expect(locations.length).toBe(2);
       done();
     });
   });

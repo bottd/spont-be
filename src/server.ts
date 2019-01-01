@@ -18,9 +18,10 @@ app.use(
 );
 
 app.post('/locations', async (req, res) => {
+  const args = req.body;
   const missingParams = [];
   for (const requiredParam in ['latitude', 'longitude', 'userID']) {
-    if (!req.args[requiredParam]) {
+    if (!args[requiredParam]) {
       missingParams.push(requiredParam);
     }
   }

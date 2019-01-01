@@ -12,20 +12,3 @@ Object {
   "selectUsersByLocationID": [Function],
 }
 `;
-
-exports[`utils methods selectLocationsByUserID Should return a set of locations associated with a user id 1`] = `
-Array [
-  Object {
-    "category": "restaurant",
-    "latitude": 0,
-    "location_name": "A",
-    "longitude": 0,
-  },
-  Object {
-    "category": "retail",
-    "latitude": 25,
-    "location_name": "B",
-    "longitude": 2,
-  },
-]
-`;
