@@ -34,9 +34,8 @@ export const mutationSchema = new GraphQLObjectType({
         if (locations.length) {
           const join = await insertLocation(locations[0], { id: args.userID });
           return join;
-        } else {
-          return args;
         }
+        return args;
       },
     },
   },

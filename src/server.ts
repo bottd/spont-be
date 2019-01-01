@@ -19,7 +19,7 @@ app.use(
 
 app.post('/locations', async (req, res) => {
   const missingParams = [];
-  for (let requiredParam in ['latitude', 'longitude', 'userID']) {
+  for (const requiredParam in ['latitude', 'longitude', 'userID']) {
     if (!req.args[requiredParam]) {
       missingParams.push(requiredParam);
     }
@@ -34,9 +34,8 @@ app.post('/locations', async (req, res) => {
   if (locations.length) {
     const join = await insertLocation(locations[0], { id: args.userID });
     return res.status(200).json(join);
-  } else {
-    return res.status(200).json(args);
   }
+  return res.status(200).json(args);
 });
 
 app.listen(app.get('port'), () => {
