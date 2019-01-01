@@ -28,7 +28,7 @@ app.post('/locations', async (req, res) => {
     coords.latitude,
     coords.longitude,
   );
-  console.log(locations);
+  console.log(args.userID);
   if (locations.length) {
     const join = await insertLocation(locations[0], { id: args.userID });
     return res.status(200).json(join);
