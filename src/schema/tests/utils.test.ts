@@ -4,6 +4,17 @@ const environment = process.env.NODE_ENV || 'development';
 const config = require('../../../knexfile')[environment];
 const database = knex(config);
 
+interface Location {
+  location_name: string;
+  category: string;
+  latitude: number;
+  longitude: number;
+}
+
+interface User {
+  id: string;
+}
+
 describe('utils methods', () => {
   it('Should match snapshot', () => {
     expect(utils).toMatchSnapshot();
@@ -22,6 +33,7 @@ describe('utils methods', () => {
       done();
     });
   });
+
   describe('selectUserByID', () => {
     beforeAll(async done => {
       await database.migrate.rollback();
@@ -36,6 +48,7 @@ describe('utils methods', () => {
       done();
     });
   });
+
   describe('selectLocationByID', () => {
     beforeAll(async done => {
       await database.migrate.rollback();
@@ -50,13 +63,8 @@ describe('utils methods', () => {
       done();
     });
   });
+
   describe('selectLocationsByUserID', () => {
-    interface Location {
-      location_name: string;
-      category: string;
-      latitude: number;
-      longitude: number;
-    }
     it('Should return a set of locations associated with a user id', async done => {
       const users = await database('users').select();
       const userLocations = await utils.selectLocationsByUserID(users[0].id);
@@ -70,7 +78,16 @@ describe('utils methods', () => {
       done();
     });
   });
-  describe('selectUsersByLocationID', () => {});
+
+  describe('selectUsersByLocationID', () => {
+    it('Should return a set of locations associated with a user id', async done => {
+      const locations = await database('locations').select();
+      const users = await utils.selectUsersByLocationID(locations[0].id);
+      expect(users.length).toBe(1);
+      done();
+    });
+  });
+
   describe('createNewUser', () => {
     beforeAll(async done => {
       await database.migrate.rollback();
@@ -87,6 +104,7 @@ describe('utils methods', () => {
     });
   });
   describe('insertLocation', () => {});
+
   describe('getLocationByCoords', () => {});
   afterAll(async done => {
     await database.migrate.rollback();
