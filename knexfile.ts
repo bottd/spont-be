@@ -10,7 +10,7 @@ module.exports = {
     },
     useNullAsDefault: true,
   },
-  testing: {
+  test: {
     client: 'pg',
     connection: 'postgres://localhost/spont_test',
     migrations: {
