@@ -18,6 +18,7 @@ app.use(
 );
 
 app.post('/locations', async (req, res) => {
+  console.log(req.body);
   const args = req.body;
   const missingParams = [];
   for (const requiredParam in ['latitude', 'longitude', 'userID']) {
