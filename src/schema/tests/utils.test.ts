@@ -1,0 +1,59 @@
+import * as knex from 'knex';
+import * as utils from '../utils';
+const environment = process.env.NODE_ENV || 'development';
+const config = require('../../../knexfile')[environment];
+const database = knex(config);
+
+describe('utils methods', () => {
+  it('Should match snapshot', () => {
+    expect(utils).toMatchSnapshot();
+  });
+
+  describe('selectAllLocations', () => {
+    beforeAll(async done => {
+      await database.migrate.rollback();
+      await database.migrate.latest();
+      await database.seed.run();
+      done();
+    });
+    it('should return all locations in locations table', async done => {
+      const result = await utils.selectAllLocations();
+      expect(result.length).toBe(6);
+      done();
+    });
+  });
+  describe('selectUserByID', () => {
+    beforeAll(async done => {
+      await database.migrate.rollback();
+      await database.migrate.latest();
+      await database.seed.run();
+      done();
+    });
+    it('Should return a user object matching given ID', async done => {
+      const users = await database('users').select();
+      const selectedUser = await utils.selectUserByID(users[0].id);
+      expect(selectedUser).toEqual(users[0]);
+      done();
+    });
+  });
+  describe('selectLocationsByID', () => {});
+  describe('selectLocationsByUserID', () => {});
+  describe('selectUsersByLocationID', () => {});
+  describe('createNewUser', () => {
+    beforeAll(async done => {
+      await database.migrate.rollback();
+      await database.migrate.latest();
+      await database.seed.run();
+      done();
+    });
+    it('Should return a new UUID with length of 36 and timestamps', async done => {
+      const newUser = await utils.createNewUser();
+      expect(newUser.id.length).toBe(36);
+      expect(newUser.created_at).toBeDefined();
+      expect(newUser.updated_at).toBeDefined();
+      done();
+    });
+  });
+  describe('insertLocation', () => {});
+  describe('getLocationByCoords', () => {});
+});

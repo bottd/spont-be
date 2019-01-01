@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`utils methods Should match snapshot 1`] = `
+Object {
+  "createNewUser": [Function],
+  "getLocationByCoords": [Function],
+  "insertLocation": [Function],
+  "selectAllLocations": [Function],
+  "selectLocationByID": [Function],
+  "selectLocationsByUserID": [Function],
+  "selectUserByID": [Function],
+  "selectUsersByLocationID": [Function],
+}
+`;
