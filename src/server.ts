@@ -23,15 +23,19 @@ app.post('/locations', async (req, res) => {
   }
   const args = req.body;
   const { coords } = args.location;
-  const locations = await getLocationByCoords(
-    coords.latitude,
-    coords.longitude,
-  );
-  if (locations.length) {
-    const join = await insertLocation(locations[0], { id: args.userID });
-    return res.status(200).json(join);
+  try {
+    const locations = await getLocationByCoords(
+      coords.latitude,
+      coords.longitude,
+    );
+    if (locations.length) {
+      const join = await insertLocation(locations[0], { id: args.userID });
+      return res.status(200).json(join);
+    }
+    return res.status(200).json(args);
+  } catch (error) {
+    res.status(500).json(error);
   }
-  return res.status(200).json(args);
 });
 
 app.listen(app.get('port'), () => {

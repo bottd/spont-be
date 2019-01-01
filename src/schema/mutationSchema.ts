@@ -27,15 +27,19 @@ export const mutationSchema = new GraphQLObjectType({
         longitude: { type: GraphQLNonNull(GraphQLFloat) },
       },
       async resolve(parentValue, args) {
-        const locations = await getLocationByCoords(
-          args.latitude,
-          args.longitude,
-        );
-        if (locations.length) {
-          const join = await insertLocation(locations[0], { id: args.userID });
-          return join;
+        try {
+          const locations = await getLocationByCoords(
+            args.latitude,
+            args.longitude,
+          );
+          if (locations.length) {
+            const join = await insertLocation(locations[0], { id: args.userID });
+            return join;
+          }
+          return args;
+        catch (error) {
+          return error;
         }
-        return args;
       },
     },
   },
