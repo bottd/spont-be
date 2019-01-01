@@ -34,12 +34,14 @@ app.post('/locations', async (req, res) => {
       .status(400)
       .json({ message: `Missing required params of ${missingParams}` });
   }
+  console.log('latitude', coords.latitude);
+  console.log('longitude', coords.longitude);
 
   const locations = await getLocationByCoords(
     coords.latitude,
     coords.longitude,
   );
-  console.log(locations);
+  console.log('locations', locations);
   if (locations.length) {
     const join = await insertLocation(locations[0], { id: args.userID });
     return res.status(200).json(join);
