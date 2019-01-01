@@ -23,25 +23,10 @@ app.post('/locations', async (req, res) => {
   }
   const args = req.body;
   const { coords } = args;
-  const missingParams = [];
-  for (const requiredParam in ['latitude', 'longitude', 'userID']) {
-    if (!args[requiredParam]) {
-      missingParams.push(requiredParam);
-    }
-  }
-  if (missingParams.length) {
-    return res
-      .status(400)
-      .json({ message: `Missing required params of ${missingParams}` });
-  }
-  console.log('coords')
-  console.log(coords);
-
   const locations = await getLocationByCoords(
     coords.latitude,
     coords.longitude,
   );
-  console.log('locations');
   console.log(locations);
   if (locations.length) {
     const join = await insertLocation(locations[0], { id: args.userID });
