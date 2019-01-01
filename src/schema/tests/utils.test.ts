@@ -64,6 +64,13 @@ describe('utils methods', () => {
   });
 
   describe('selectLocationsByUserID', () => {
+    beforeAll(async done => {
+      await database.migrate.rollback();
+      await database.migrate.latest();
+      await database.seed.run();
+      done();
+    });
+
     it('Should return a set of locations associated with a user id', async done => {
       const users = await database('users').select();
       const userLocations = await utils.selectLocationsByUserID(users[0].id);
