@@ -21,7 +21,6 @@ app.post('/locations', async (req, res) => {
   if (req.body.location.is_moving) {
     return res.status(200).json(req.body);
   }
-  console.log('not moving');
   const args = req.body;
   const { coords } = args;
   const missingParams = [];
@@ -40,6 +39,7 @@ app.post('/locations', async (req, res) => {
     coords.latitude,
     coords.longitude,
   );
+  console.log(locations);
   if (locations.length) {
     const join = await insertLocation(locations[0], { id: args.userID });
     return res.status(200).json(join);
