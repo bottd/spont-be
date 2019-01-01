@@ -6,7 +6,7 @@ services:
 before_script:
 - npm install -g typescript
 - psql -U postgres -c 'CREATE DATABASE spont_test;'
-- psql -U postgres spont_test -c "create extension uuid-ossp"
+- psql -U postgres spont_test -c 'create extension "uuid-ossp";'
 notifications:
   email: false
 deploy:
