@@ -50,7 +50,26 @@ describe('utils methods', () => {
       done();
     });
   });
-  describe('selectLocationsByUserID', () => {});
+  describe('selectLocationsByUserID', () => {
+    interface Location {
+      location_name: string;
+      category: string;
+      latitude: number;
+      longitude: number;
+    }
+    it('Should return a set of locations associated with a user id', async done => {
+      const users = await database('users').select();
+      const userLocations = await utils.selectLocationsByUserID(users[0].id);
+      const locations = userLocations.map((location: Location) => ({
+        category: location.category,
+        location_name: location.location_name,
+        latitude: location.latitude,
+        longitude: location.longitude,
+      }));
+      expect(locations).toMatchSnapshot();
+      done();
+    });
+  });
   describe('selectUsersByLocationID', () => {});
   describe('createNewUser', () => {
     beforeAll(async done => {
