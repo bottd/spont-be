@@ -22,8 +22,8 @@ app.post('/locations', async (req, res) => {
     return res.status(200).json(req.body);
   }
   const args = req.body;
-  const { coords } = args;
-  console.log(args);
+  const { coords } = args.location;
+  console.log(coords);
   const locations = await getLocationByCoords(
     coords.latitude,
     coords.longitude,
