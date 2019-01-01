@@ -83,12 +83,12 @@ export async function insertLocation(location: Location, user: User) {
       '*',
     );
   }
-  const returnStuff = {
+
+  return {
     userID: user.id,
     latitude: location.latitude,
     longitude: location.longitude,
   };
-  return returnStuff;
 }
 
 export async function getLocationByCoords(latitude: number, longitude: number) {

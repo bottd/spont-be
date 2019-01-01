@@ -3,7 +3,6 @@ import * as utils from '../utils';
 const environment = process.env.NODE_ENV || 'development';
 const config = require('../../../knexfile')[environment];
 const database = knex(config);
-
 interface Location {
   location_name: string;
   category: string;
@@ -103,7 +102,23 @@ describe('utils methods', () => {
       done();
     });
   });
-  describe('insertLocation', () => {});
+  describe('insertLocation', () => {
+    beforeAll(async done => {
+      await database.migrate.rollback();
+      await database.migrate.latest();
+      await database.seed.run();
+      done();
+    });
+    it('Should insert a user_location join for a user', async done => {
+      const users = await database('users').select();
+      const allLocations = await utils.selectAllLocations();
+      const userLocations = await utils.selectLocationsByUserID(users[1].id);
+      await utils.insertLocation(allLocations[0], users[1]);
+      const userLocationsNext = await utils.selectLocationsByUserID(users[1].id);
+      expect (userLocations.length).not.toBe(userLocationsNext.length);
+      done();
+    });
+  });
 
   describe('getLocationByCoords', () => {});
   afterAll(async done => {
