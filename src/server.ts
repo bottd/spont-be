@@ -18,13 +18,15 @@ app.use(
 );
 
 app.post('/locations', async (req, res) => {
-  if (req.body.is_moving) {
+  if (req.body.location.coords.is_moving) {
     return res.status(200).json(req.body);
   }
   console.log(req.body.userID);
-  console.log(req.body.latitude);
-  console.log(req.body.longitude);
+  console.log(req.body.location.coords.latitude);
+  console.log(req.body.location.coords.longitude);
+  console.log(req.body.location.coords.is_moving);
   const args = req.body;
+  const { coords } = args;
   const missingParams = [];
   for (const requiredParam in ['latitude', 'longitude', 'userID']) {
     if (!args[requiredParam]) {
@@ -37,7 +39,7 @@ app.post('/locations', async (req, res) => {
       .json({ message: `Missing required params of ${missingParams}` });
   }
 
-  const locations = await getLocationByCoords(args.latitude, args.longitude);
+  const locations = await getLocationByCoords(coords.latitude, coords.longitude);
   if (locations.length) {
     const join = await insertLocation(locations[0], { id: args.userID });
     return res.status(200).json(join);
