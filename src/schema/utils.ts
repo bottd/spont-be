@@ -4,7 +4,8 @@ const environment = process.env.NODE_ENV || 'development';
 const config = require('../../knexfile')[environment];
 const database = knex(config);
 
-interface Location { location_name: string;
+interface Location {
+  location_name: string;
   category: string;
   latitude: number;
   longitude: number;
@@ -82,24 +83,29 @@ export async function insertLocation(location: Location, user: User) {
       '*',
     );
   }
-  const returnStuff = {
+
+  return {
     userID: user.id,
     latitude: location.latitude,
     longitude: location.longitude,
   };
-  return returnStuff;
 }
 
 export async function getLocationByCoords(latitude: number, longitude: number) {
   const response = await axios.get(
     `https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=${
       process.env.API_KEY
-    }&location=${latitude},${longitude}&radius=50`,
+    }&location=${latitude},${longitude}&rankby=distance`,
   );
-  return response.data.results.map(result => ({
-    category: result.types[0],
-    location_name: result.name,
-    latitude: result.geometry.location.lat,
-    longitude: result.geometry.location.lng,
-  }));
+  return response.data.results.reduce((array, result) => {
+    if (!result.types.includes('route')) {
+      array.push({
+        category: result.types[0],
+        location_name: result.name,
+        latitude: result.geometry.location.lat,
+        longitude: result.geometry.location.lng,
+      });
+    }
+    return array;
+  }, []);
 }

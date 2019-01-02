@@ -1,9 +1,9 @@
 import * as express from 'express';
-import * as knex from 'knex';
 import * as graphqlHTTP from 'express-graphql';
 import { schema } from './schema';
+import { insertLocation, getLocationByCoords } from './schema/utils';
 
-require('dotenv').config()
+require('dotenv').config();
 const app = express();
 
 app.set('port', process.env.PORT || 3000);
@@ -16,6 +16,29 @@ app.use(
     graphiql: true,
   }),
 );
+
+app.post('/locations', async (req, res) => {
+  console.log(req.body);
+  const args = req.body;
+  const missingParams = [];
+  for (const requiredParam in ['latitude', 'longitude', 'userID']) {
+    if (!args[requiredParam]) {
+      missingParams.push(requiredParam);
+    }
+  }
+  if (missingParams.length) {
+    return res
+      .status(400)
+      .json({ message: `Missing required params of ${missingParams}` });
+  }
+
+  const locations = await getLocationByCoords(args.latitude, args.longitude);
+  if (locations.length) {
+    const join = await insertLocation(locations[0], { id: args.userID });
+    return res.status(200).json(join);
+  }
+  return res.status(200).json(args);
+});
 
 app.listen(app.get('port'), () => {
   console.log(`listening on port ${app.get('port')}`);

@@ -1,0 +1,16 @@
+language: node_js
+node_js:
+- node
+services:
+- postgresql
+before_script:
+- npm install -g typescript
+- psql -U postgres -c 'CREATE DATABASE spont_test;'
+- psql -U postgres spont_test -c 'create extension "uuid-ossp";'
+notifications:
+  email: false
+deploy:
+  app: spont-server
+  provider: heroku
+  api_key:
+    secure: M7dxCgq3BfzZOOUn+4Pg+Wb+PYMgk8r5bMQD2m6ot8xRNMIuLfH7rmDZiPcuGTGQoTdwjfPUdS0q4qHhxi/kV4NSJJAMCjZAcI6JjUog16sUMbujUhnS5+7ZnWnsjEA7ThCCyUXBwu89cIiM9HKabG643TCEjf/4bxl1DcmT7JJK/rM0gcbpDj18KUBJp6rduhx6N8iT7TdGn6940Hu4CWZK0jqZYCUWibf0aSU7PQtN4zbmbgBBa2nTjqZhXQDIcsB+s/wiIQhsXgveNRWkogiMKSlym11Y56O1wWIuJpr8nBCg/1j0QqhW9HIwgLP1KwCNv9sul7faUYuJ2HLy8Wo3XJUW8AXhX8XNNGPVIqhPMjorAaEV4NqbabDRoxGZDsURGtcY0OqeA0q1vYczpgn1zyV7r2rbRGwVjLDANzKMtVgl5DfpoSSJ0e2m+AT7TdsPzPsOscUlVgdmhWUBw/vD37L59oCgGDftbsjbxSvOiSDqyGlqteh+RTXE8O1ZoJQYFkabRoQdYx1NXfb9wRJlfKwqtKea/9FMOLEPPpHY8A1Sa015XcO2guwZHWwLEHX8O/HNixiE4HvZmYB6CzwaCMTyew/TVMu4rjJmtmr3vQ+t8URswYOk0TxQ8etbk2KHZ+7ymFExx5LM0B3WolH3iwQImeFeNCF/NrKwF5Q=
