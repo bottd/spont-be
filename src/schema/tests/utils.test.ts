@@ -1,8 +1,10 @@
 import * as knex from 'knex';
 import * as utils from '../utils';
+
 const environment = process.env.NODE_ENV || 'development';
 const config = require('../../../knexfile')[environment];
 const database = knex(config);
+
 interface Location {
   location_name: string;
   category: string;
@@ -93,12 +95,12 @@ describe('utils methods', () => {
       done();
     });
 
-    //it('Should return a set of locations associated with a user id', async done => {
-      //const locations = await database('locations').select();
-      //const users = await utils.selectUsersByLocationID(locations[0].id);
-      //expect(users.length).toBe(1);
-      //done();
-      //});
+    it('Should return a set of locations associated with a user id', async done => {
+      const locations = await database('locations').select();
+      const users = await utils.selectUsersByLocationID(locations[0].id);
+      expect(users.length).toBe(1);
+      done();
+    });
   });
 
   describe('createNewUser', () => {
@@ -124,17 +126,17 @@ describe('utils methods', () => {
       done();
     });
 
-    //it('Should insert a user_location join for a user', async done => {
-      //const users = await database('users').select();
-      //const allLocations = await utils.selectAllLocations();
-      //const userLocations = await utils.selectLocationsByUserID(users[1].id);
-      //await utils.insertLocation(allLocations[0], users[1]);
-      //const userLocationsNext = await utils.selectLocationsByUserID(
-      //users[1].id,
-      //);
-      //expect(userLocations.length).not.toBe(userLocationsNext.length);
-      //done();
-    //});
+    it('Should insert a user_location join for a user', async done => {
+      const users = await database('users').select();
+      const allLocations = await utils.selectAllLocations();
+      const userLocations = await utils.selectLocationsByUserID(users[1].id);
+      await utils.insertLocation(allLocations[0], users[1]);
+      const userLocationsNext = await utils.selectLocationsByUserID(
+        users[1].id,
+      );
+      expect(userLocations.length).not.toBe(userLocationsNext.length);
+      done();
+    });
   });
   afterAll(async done => {
     await database.migrate.rollback();
