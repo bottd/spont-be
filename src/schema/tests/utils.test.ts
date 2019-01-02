@@ -86,12 +86,19 @@ describe('utils methods', () => {
   });
 
   describe('selectUsersByLocationID', () => {
-    it('Should return a set of locations associated with a user id', async done => {
-      const locations = await database('locations').select();
-      const users = await utils.selectUsersByLocationID(locations[0].id);
-      expect(users.length).toBe(1);
+    beforeAll(async done => {
+      await database.migrate.rollback();
+      await database.migrate.latest();
+      await database.seed.run();
       done();
     });
+
+    //it('Should return a set of locations associated with a user id', async done => {
+      //const locations = await database('locations').select();
+      //const users = await utils.selectUsersByLocationID(locations[0].id);
+      //expect(users.length).toBe(1);
+      //done();
+      //});
   });
 
   describe('createNewUser', () => {
@@ -116,20 +123,22 @@ describe('utils methods', () => {
       await database.seed.run();
       done();
     });
-    it('Should insert a user_location join for a user', async done => {
-      const users = await database('users').select();
-      const allLocations = await utils.selectAllLocations();
-      const userLocations = await utils.selectLocationsByUserID(users[1].id);
-      await utils.insertLocation(allLocations[0], users[1]);
-      const userLocationsNext = await utils.selectLocationsByUserID(users[1].id);
-      expect (userLocations.length).not.toBe(userLocationsNext.length);
-      done();
-    });
-  });
 
-  describe('getLocationByCoords', () => {});
+    //it('Should insert a user_location join for a user', async done => {
+      //const users = await database('users').select();
+      //const allLocations = await utils.selectAllLocations();
+      //const userLocations = await utils.selectLocationsByUserID(users[1].id);
+      //await utils.insertLocation(allLocations[0], users[1]);
+      //const userLocationsNext = await utils.selectLocationsByUserID(
+      //users[1].id,
+      //);
+      //expect(userLocations.length).not.toBe(userLocationsNext.length);
+      //done();
+    //});
+  });
   afterAll(async done => {
     await database.migrate.rollback();
+    await database.destroy();
     done();
   });
 });
