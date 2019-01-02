@@ -1,5 +1,7 @@
-describe('', () => {
-  it('should be true', () => {
-    expect(true).toBe(true);
+import { schema } from '../';
+
+describe('Schema', () => {
+  it('should match snapshot', () => {
+    expect(schema).toMatchSnapshot();
   });
 });
