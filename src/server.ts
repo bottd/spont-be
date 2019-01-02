@@ -18,26 +18,24 @@ app.use(
 );
 
 app.post('/locations', async (req, res) => {
-  console.log(req.body);
+  if (req.body.location.is_moving) {
+    return res.status(200).json(req.body);
+  }
   const args = req.body;
-  const missingParams = [];
-  for (const requiredParam in ['latitude', 'longitude', 'userID']) {
-    if (!args[requiredParam]) {
-      missingParams.push(requiredParam);
+  const { coords } = args.location;
+  try {
+    const locations = await getLocationByCoords(
+      coords.latitude,
+      coords.longitude,
+    );
+    if (locations.length) {
+      const join = await insertLocation(locations[0], { id: args.userID });
+      return res.status(200).json(join);
     }
+    return res.status(200).json(args);
+  } catch (error) {
+    res.status(500).json(error);
   }
-  if (missingParams.length) {
-    return res
-      .status(400)
-      .json({ message: `Missing required params of ${missingParams}` });
-  }
-
-  const locations = await getLocationByCoords(args.latitude, args.longitude);
-  if (locations.length) {
-    const join = await insertLocation(locations[0], { id: args.userID });
-    return res.status(200).json(join);
-  }
-  return res.status(200).json(args);
 });
 
 app.listen(app.get('port'), () => {

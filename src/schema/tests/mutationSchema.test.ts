@@ -1,5 +1,7 @@
-describe('', () => {
-  it('should be true', () => {
-    expect(true).toBe(true);
+import { mutationSchema } from '../mutationSchema';
+
+describe('mutationSchema', () => {
+  it('should match snapshot', () => {
+    expect(mutationSchema).toMatchSnapshot();
   });
 });

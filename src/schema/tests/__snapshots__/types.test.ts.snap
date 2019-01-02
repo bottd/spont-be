@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`types LocationType should match snapshot 1`] = `"Location"`;
+
+exports[`types UserType should match snapshot 1`] = `"User"`;
