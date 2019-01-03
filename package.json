@@ -23,6 +23,7 @@
   "homepage": "https://github.com/bottd/spont-be#readme",
   "dependencies": {
     "@types/express-graphql": "^0.6.2",
+    "@types/graphql": "^14.0.4",
     "@types/knex": "^0.15.1",
     "@types/node": "^10.12.18",
     "@types/pg": "^7.4.11",

@@ -1,5 +1,5 @@
 import * as graphql from 'graphql';
-import { selectLocationsByUserID, selectUsersByLocationID } from './utils';
+import { selectLocationsByUserID, selectUsersByLocationID, selectUserSuggestions } from './utils';
 
 const {
   GraphQLObjectType,
