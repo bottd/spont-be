@@ -52,8 +52,8 @@ export async function selectUsersByLocationID(id: string) {
 
 export async function selectUserSuggestions(id: string) {
   const locations: any = await selectLocationsByUserID(id);
-  const locationNames = locations.map(location => location.location_name);
-  const suggestionNames: any = [];
+  const locationIds = locations.map(location => location.id);
+  const suggestionIds: any = [];
   return locations.reduce(async (reccomend: any, location: Location) => {
     reccomend = await reccomend;
     const users: any = await selectUsersByLocationID(location.id);
@@ -62,10 +62,10 @@ export async function selectUserSuggestions(id: string) {
         const userLocations: any = await selectLocationsByUserID(users[i].id);
         for (let k = 0; k < userLocations.length; k++) {
           if (
-            !locationNames.includes(userLocations[k].location_name) &&
-            !suggestionNames.includes(userLocations[k].location_name)
+            !locationIds.includes(userLocations[k].id) &&
+            !suggestionIds.includes(userLocations[k].id)
           ) {
-            suggestionNames.push(userLocations[k].location_name);
+            suggestionIds.push(userLocations[k].id);
             reccomend.push(userLocations[k]);
           }
         }
