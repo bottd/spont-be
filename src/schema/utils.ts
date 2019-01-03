@@ -57,10 +57,10 @@ export async function selectUserSuggestions(id: string) {
   return locations.reduce(async (reccomend: any, location: Location) => {
     reccomend = await reccomend;
     const users: any = await selectUsersByLocationID(location.id);
-    for (let i = 0; i < users.length; i++) {
+    for (let i = 0; i < users.length; i += 1) {
       if (users[i].id !== id) {
         const userLocations: any = await selectLocationsByUserID(users[i].id);
-        for (let k = 0; k < userLocations.length; k++) {
+        for (let k = 0; k < userLocations.length; k += 1) {
           if (
             !locationIds.includes(userLocations[k].id) &&
             !suggestionIds.includes(userLocations[k].id)
