@@ -21,6 +21,12 @@ export const UserType = new GraphQLObjectType({
         return selectLocationsByUserID(parentValue.id);
       },
     },
+    suggestions: {
+      type: new GraphQLList(LocationType),
+      resolve(parentValue, args) {
+        return selectUserSuggestions(parentValue.id);
+      }
+    }
   }),
 });
 
