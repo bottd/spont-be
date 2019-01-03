@@ -9,6 +9,7 @@ Object {
   "selectLocationByID": [Function],
   "selectLocationsByUserID": [Function],
   "selectUserByID": [Function],
+  "selectUserSuggestions": [Function],
   "selectUsersByLocationID": [Function],
 }
 `;
