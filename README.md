@@ -1,6 +1,6 @@
 # Spont BE
 ### About
-This is the Node server for the Spont app written in React Native.  You can view the app's repo [here](https://github.com/gmasterofnone/spont). The server is written in Node with Typescript and uses GraphQL to serve up data from the PostgreSQL server.
+This is the Node server for the Spont app written in React Native.  You can view the app's repo [here](https://github.com/gmasterofnone/spont). The server is written in Node with Typescript and uses GraphQL to serve up data from the PostgreSQL server. Server is live on Heroku at http://spont-server.herokuapp.com/graphql
 
 ### Installation and Setup
 
