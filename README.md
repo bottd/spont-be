@@ -9,7 +9,9 @@ To set up the server locally follow these steps:
 This project requires node to be installed.  Make sure you have the following global dependencies set up: Typescript, Ts-Node, Knex, & PostgreSQL
 
 Install any missing global dependencies with the following command
+
 `$ npm install -g typescript ts-node knex`
+
 `$ brew install postgres`
 
 After all globals are set up clone the repo down and install the modules
@@ -20,6 +22,7 @@ After all globals are set up clone the repo down and install the modules
 Then create the database for the server named spont_dev and add the uuid-ossp extension to it
 
 `$ psql -U postgres -c 'CREATE DATABASE spont_test;'`
+
 `$ psql -U postgres spont_test -c 'create extension "uuid-ossp";'`
 
 ### Running the server
@@ -27,8 +30,10 @@ Then create the database for the server named spont_dev and add the uuid-ossp ex
 The server can be run with
 
 `npm start`
+
 This will expose the GraphQL dev tools endpoint at localhost:3000/graphql
 The same endpoint can also take HTTP requests
 
 To run the test suite
+
 `npm test`
