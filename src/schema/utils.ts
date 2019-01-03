@@ -5,6 +5,7 @@ const config = require('../../knexfile')[environment];
 const database = knex(config);
 
 interface Location {
+  id: string;
   location_name: string;
   category: string;
   latitude: number;
@@ -48,6 +49,32 @@ export async function selectUsersByLocationID(id: string) {
   const users = userJoins.map(join => selectUserByID(join.user_id));
   return Promise.all(users);
 }
+
+export async function selectUserSuggestions(id: string) {
+  const locations: any = await selectLocationsByUserID(id);
+  const locationIds = locations.map(location => location.id);
+  const suggestionIds: any = [];
+  return locations.reduce(async (reccomend: any, location: Location) => {
+    reccomend = await reccomend;
+    const users: any = await selectUsersByLocationID(location.id);
+    for (let i = 0; i < users.length; i++) {
+      if (users[i].id !== id) {
+        const userLocations: any = await selectLocationsByUserID(users[i].id);
+        for (let k = 0; k < userLocations.length; k++) {
+          if (
+            !locationIds.includes(userLocations[k].id) &&
+            !suggestionIds.includes(userLocations[k].id)
+          ) {
+            suggestionIds.push(userLocations[k].id);
+            reccomend.push(userLocations[k]);
+          }
+        }
+      }
+    }
+    return reccomend;
+  }, []);
+}
+
 export async function createNewUser() {
   const newUser = await database('users').insert({}, '*');
   return newUser[0];

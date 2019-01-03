@@ -1,5 +1,5 @@
 import * as graphql from 'graphql';
-import { selectLocationsByUserID, selectUsersByLocationID } from './utils';
+import { selectLocationsByUserID, selectUsersByLocationID, selectUserSuggestions } from './utils';
 
 const {
   GraphQLObjectType,
@@ -21,6 +21,12 @@ export const UserType = new GraphQLObjectType({
         return selectLocationsByUserID(parentValue.id);
       },
     },
+    suggestions: {
+      type: new GraphQLList(LocationType),
+      resolve(parentValue, args) {
+        return selectUserSuggestions(parentValue.id);
+      }
+    }
   }),
 });
 
