@@ -63,7 +63,8 @@ export async function selectUserSuggestions(id: string) {
         for (let k = 0; k < userLocations.length; k += 1) {
           if (
             !locationIds.includes(userLocations[k].id) &&
-            !suggestionIds.includes(userLocations[k].id)
+            !suggestionIds.includes(userLocations[k].id) &&
+            userLocations[k].category !== 'point_of_interest'
           ) {
             suggestionIds.push(userLocations[k].id);
             reccomend.push(userLocations[k]);
