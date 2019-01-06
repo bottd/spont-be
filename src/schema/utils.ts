@@ -130,11 +130,15 @@ export async function getLocationByCoords(latitude: number, longitude: number) {
   );
   return response.data.results.reduce((array, result) => {
     if (!result.types.includes('route')) {
+      let category = result.types[0];
+      if (category.includes('store')) {
+        category = 'store';
+      }
       array.push({
-        category: result.types[0],
         location_name: result.name,
         latitude: result.geometry.location.lat,
         longitude: result.geometry.location.lng,
+        category,
       });
     }
     return array;
