@@ -32,7 +32,12 @@ export const mutationSchema = new GraphQLObjectType({
           args.longitude,
         );
         if (locations.length) {
-          const join = await insertLocation(locations[0], { id: args.userID });
+          const selectedLocation = locations.find(location => {
+            return location.category !== 'point_of_interest';
+          });
+          const join = await insertLocation(selectedLocation || locations[0], {
+            id: args.userID,
+          });
           return join;
           return args;
         }

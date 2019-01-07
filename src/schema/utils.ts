@@ -51,6 +51,7 @@ export async function selectUsersByLocationID(id: string) {
 }
 
 export async function selectUserSuggestions(id: string) {
+  const allowedCategories = ['store', 'gym', 'bar', 'cafe', 'restaurant'];
   const locations: any = await selectLocationsByUserID(id);
   const locationIds = locations.map(location => location.id);
   const suggestionIds: any = [];
@@ -59,7 +60,10 @@ export async function selectUserSuggestions(id: string) {
     const users: any = await selectUsersByLocationID(location.id);
     for (let i = 0; i < users.length; i += 1) {
       if (users[i].id !== id) {
-        const userLocations: any = await selectLocationsByUserID(users[i].id);
+        let userLocations: any = await selectLocationsByUserID(users[i].id);
+        userLocations = userLocations.filter(location =>
+          allowedCategories.includes(location.category),
+        );
         for (let k = 0; k < userLocations.length; k += 1) {
           if (
             !locationIds.includes(userLocations[k].id) &&
@@ -126,11 +130,15 @@ export async function getLocationByCoords(latitude: number, longitude: number) {
   );
   return response.data.results.reduce((array, result) => {
     if (!result.types.includes('route')) {
+      let category = result.types[0];
+      if (category.includes('store')) {
+        category = 'store';
+      }
       array.push({
-        category: result.types[0],
         location_name: result.name,
         latitude: result.geometry.location.lat,
         longitude: result.geometry.location.lng,
+        category,
       });
     }
     return array;
